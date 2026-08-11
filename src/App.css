@@ -1,133 +1,709 @@
-.header{
-  background-color: burlywood;
+@import url('https://fonts.googleapis.com/css2?family=Righteous&family=Work+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap');
+
+:root {
+  --ink: #2B1B3D;
+  --paper: #FFF8F0;
+  --paper-dim: #FBEDE0;
+  --mango: #FF7A3D;
+  --fuchsia: #E6337B;
+  --teal: #1B8A6B;
+  --charcoal: #2B2233;
+  --danger: #B23A48;
+  --line: rgba(43, 34, 51, 0.15);
+  --radius: 10px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--paper);
+  color: var(--charcoal);
+  font-family: 'Work Sans', sans-serif;
+  margin: 0;
+}
+
+button,
+select {
+  font-family: 'Work Sans', sans-serif;
+  cursor: pointer;
+}
+
+a {
+  text-decoration: none;
+}
+
+button:focus-visible,
+a:focus-visible,
+select:focus-visible {
+  outline: 3px solid var(--fuchsia);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* ---------- App shell / sticky header+footer ---------- */
+
+.App {
+  padding-top: 90px;
+  padding-bottom: 56px;
+  min-height: 100vh;
+}
+
+.header {
+  background: var(--ink);
   height: 90px;
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  box-shadow: 2px 5px 14px burlywood;
+  padding: 0 40px;
+  box-shadow: 0 3px 0 var(--fuchsia);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
 }
-.footer{
-  background-color: lightgray;
-  height: 50px;
-  box-shadow: 2px 17px 16px lightgrey;
+
+.foodapp_lite {
+  color: var(--paper);
+  font-family: 'Righteous', sans-serif;
+  font-size: 26px;
+  letter-spacing: 0.5px;
+  margin: 0;
+  padding: 0;
 }
-.image{
-  height: 200px;
-  width: 350px;
-  margin-top: 66px;
+
+.addtocart {
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--ink);
+  background: var(--mango);
+  border: none;
+  border-radius: 20px;
+  height: 36px;
+  padding: 0 18px;
+  margin-left: 12px;
+  transition: transform 0.08s ease, background 0.15s ease, color 0.15s ease;
 }
-.name{
+
+.addtocart:hover {
+  background: var(--fuchsia);
+  color: var(--paper);
+  transform: translateY(-1px);
+}
+
+.addtocart:active {
+  background: #C4266A;
+  transform: scale(0.96);
+}
+
+.footer {
+  background: var(--ink);
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 -3px 0 var(--fuchsia);
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+}
+
+.foodapplite_footer {
+  color: var(--paper);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+  margin: 0;
+}
+
+/* ---------- Category tabs ---------- */
+
+.Category {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 28px 40px 10px;
+}
+
+.category_btn1,
+.category_btn2,
+.category_btn3,
+.category_btn4,
+.category_btn5 {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  font-weight: 600;
+  height: 38px;
+  padding: 0 18px;
+  border: 1.5px solid var(--ink);
+  border-radius: 20px;
+  background: transparent;
+  color: var(--ink);
+  transition: transform 0.08s ease, background 0.15s ease, color 0.15s ease;
+}
+
+.category_btn1:hover,
+.category_btn2:hover,
+.category_btn3:hover,
+.category_btn4:hover,
+.category_btn5:hover {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.category_btn1:active,
+.category_btn2:active,
+.category_btn3:active,
+.category_btn4:active,
+.category_btn5:active {
+  background: var(--ink);
+  color: var(--paper);
+  transform: scale(0.96);
+}
+
+.category_btn1.active,
+.category_btn2.active,
+.category_btn3.active,
+.category_btn4.active,
+.category_btn5.active {
+  background: var(--fuchsia);
+  border-color: var(--fuchsia);
+  color: var(--paper);
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ---------- Status messages ---------- */
+
+.status-message {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 14px;
   text-align: center;
+  padding: 30px 20px;
+  color: var(--charcoal);
 }
-.imginfo{
+
+.status-message.error {
+  color: var(--danger);
+}
+
+/* ---------- Food grid ---------- */
+
+.fooditem {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 28px;
+  padding: 20px 40px 60px;
+  width: 100%;
+}
+
+.foodcard {
+  position: relative;
+  width: 100%;
+  background: #fff;
+  border: 1.5px solid var(--line);
+  border-top: 2px dashed var(--line);
+  border-radius: 2px 2px var(--radius) var(--radius);
+  text-align: center;
+  padding-bottom: 16px;
+  margin: 0;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.foodcard::before,
+.foodcard::after {
+  content: "";
+  position: absolute;
+  top: -1px;
+  width: 16px;
+  height: 16px;
+  background: var(--paper);
+  border: 1.5px solid var(--line);
+  border-radius: 50%;
+}
+
+.foodcard::before {
+  left: -9px;
+}
+
+.foodcard::after {
+  right: -9px;
+}
+
+.foodcard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 22px rgba(43, 27, 61, 0.15);
+}
+
+.image {
+  height: 170px;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 0 0 2px 2px;
+}
+
+.name {
+  text-align: center;
+  font-weight: 600;
+  font-size: 15px;
+  padding: 12px 14px 0;
+  color: var(--charcoal);
+}
+
+.imginfo {
   height: 100px;
   width: 100px;
 }
-.foodcard{
-  height: 349px;
-  width: 400px;
-  margin : 50px;
-  text-align: center;
-  margin-bottom: 20px;
-  margin-top: 15px;
-  border: 1px solid black;
-  border-color: lightgray;
+
+/* ---------- Item detail page ---------- */
+.selectItem {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  font-weight: 600;
+  height: 34px;
+  padding: 0 16px;
+  border: 1.5px solid var(--danger);
+  border-radius: 20px;
+  background: transparent;
+  color: var(--danger);
+  margin-top: 6px;
+  transition: transform 0.08s ease, background 0.15s ease, color 0.15s ease;
 }
-.fooditem{
+
+.FoodItemInfo {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
+  gap: 40px;
+  margin: 50px 40px;
+  padding: 24px;
+  background: var(--paper-dim);
+  border-radius: var(--radius);
+  justify-content: center;
 }
-.foodapp_lite{
-  color: black;
-  font-size: x-large;
-  padding-left: 60px;
-  padding-bottom: 41px;
-  margin-top: 22px;
+
+.leftimg {
+  margin: 0;
 }
-.foodapplite_footer{
-  text-align: center;
-  padding-top: 12px;
+
+.img {
+  height: 320px;
+  width: 460px;
+  max-width: 100%;
+  object-fit: cover;
+  border-radius: var(--radius);
 }
-.addtocart{
-  width: 120px;
-  color:black;
-  background-color: burlywood;
-  height: 26px;
-  margin-top: 29px;
-  margin-right: 187px;
+
+.paymentimg {
+  height: 130px;
+  width: 180px;
+  object-fit: cover;
+  border-radius: var(--radius);
 }
-.category_button{
-  margin : 10px;
+
+.iteminfo {
+  margin: 0;
+  max-width: 420px;
 }
-.FoodItemInfo{
-  display: flex;
-  margin: 60px;
-  justify-content: space-around;
+
+.iteminfo p:first-child {
+  font-family: 'Righteous', sans-serif;
+  font-size: 21px;
+  color: var(--ink);
 }
-.img{
-  height: 400px;
-  width: 600px;
-  margin-top: 20px;
-}
-.leftimg{
-  margin-left: 45px;
-}
-.iteminfo{
-  margin-left: 78px;
-  margin-top: 76px;
-}
-.category_btn1{
-  height: 30px;
-  width: 150px;
-  margin-left: 100px;
-  margin-top: 5px;
-  margin-bottom: 30px;
-}
-.category_btn2{
-  height: 30px;
-  width: 150px;
-  margin-left: 60px;
-  margin-top: 30px;
-  margin-bottom: 30px;
-}
-.category_btn3{
-  height: 30px;
-  width: 150px;
-  margin-left: 20px;
-  margin-top: 30px;
+
+.category {
+  display: inline-block;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  color: var(--teal);
+  background: rgba(27, 138, 107, 0.12);
+  padding: 4px 10px;
+  border-radius: 20px;
   margin-bottom: 10px;
 }
-.category_btn4{
-  margin-left: 50px;
-  width: 150px;
-  height: 30px;
-  margin-top: 0px;
-  margin-bottom: 36px;
+
+.description {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--charcoal);
 }
-.category_btn5{
-  height: 30px;
-  width: 150px;
-  margin-left: 20px;
-  margin-top: 30px;
-  margin-bottom: 14px;
+
+.infobtn {
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 600;
+  font-size: 13px;
+  background: var(--mango);
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  height: 40px;
+  padding: 0 22px;
+  transition: transform 0.08s ease, background 0.15s ease;
 }
-.clearButton{
-  margin-left: 697px;
-  margin-top: 15px;
-  height: 25px;
-  width: 100px;
+
+.infobtn:hover {
+  background: #E85F22;
 }
-.inputnumber{
+
+.infobtn:active {
+  background: #C24E15;
+  transform: scale(0.96);
+}
+
+/* ---------- Cart / Order lists ---------- */
+
+.AddToCart,
+.OrderNow {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 40px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.AddToCart .FoodItemInfo,
+.OrderNow .FoodItemInfo {
+  width: 100%;
+  margin: 0;
+  padding: 16px 20px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 20px;
+  justify-content: flex-start;
+}
+
+.AddToCart .img,
+.OrderNow .img {
+  height: 100px;
+  width: 140px;
+  border-radius: 8px;
+}
+
+.AddToCart .iteminfo,
+.OrderNow .iteminfo {
+  max-width: none;
+  flex: 1;
+  min-width: 200px;
+}
+
+.AddToCart .iteminfo p:first-child,
+.OrderNow .iteminfo p:first-child {
+  font-size: 16px;
+}
+
+.AddToCart .infobtn,
+.OrderNow .infobtn {
+  height: 36px;
+  font-size: 12px;
+}
+
+.removeBtn {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  font-weight: 600;
+  height: 34px;
+  padding: 0 16px;
+  border: none;
+  border-radius: 20px;
+  background: transparent;
+  color: var(--danger);
+  margin-top: 6px;
+  transition: transform 0.08s ease, background 0.15s ease, color 0.15s ease;
+}
+
+.removeBtn:hover {
+  background: var(--danger);
+  color: #fff;
+}
+
+.removeBtn:active {
+  background: var(--danger);
+  color: #fff;
+  transform: scale(0.96);
+}
+
+.clearButton {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  font-weight: 600;
+  height: 38px;
+  padding: 0 20px;
+  border: 1.5px solid var(--mango);
+  border-radius: 20px;
+  background: transparent;
+  color: var(--mango);
+  transition: transform 0.08s ease, background 0.15s ease, color 0.15s ease;
+}
+
+.clearButton:hover {
+  background: var(--mango);
+  color: #fff;
+}
+
+.clearButton:active {
+  background: var(--mango);
+  color: #fff;
+  transform: scale(0.96);
+}
+
+.paymentBtn {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  font-weight: 600;
+  height: 38px;
+  padding: 0 26px;
+  border: none;
+  border-radius: 20px;
+  background: var(--fuchsia);
+  color: #fff;
+  transition: transform 0.08s ease, background 0.15s ease;
+}
+
+.paymentBtn:hover {
+  background: #C4266A;
+}
+
+.paymentBtn:active {
+  background: #A31D5A;
+  transform: scale(0.96);
+}
+
+.order-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+}
+
+select {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  padding: 6px 10px;
+  border: 1.5px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--charcoal);
+  margin: 8px 0;
+}
+
+.inputnumber {
   width: 70px;
+  font-family: 'IBM Plex Mono', monospace;
+  padding: 6px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
 }
-.totalamout{
-  margin-left: 694px;
+
+.totalamout {
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 600;
 }
-.cardsection{
+
+/* ---------- Payment screen ---------- */
+
+.payment-page {
+  max-width: 640px;
+  margin: 40px auto;
+  padding: 0 20px 60px;
+}
+
+.payment-heading {
+  font-family: 'Righteous', sans-serif;
+  font-size: 24px;
+  color: var(--ink);
   text-align: center;
-  width: 500px;
+  margin-bottom: 6px;
 }
-.paymentimg{
-  height: 200px;
-  width: 300px;
+
+.payment-subheading {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  color: var(--teal);
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.payment-summary {
+  background: var(--paper-dim);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  margin-bottom: 24px;
+}
+
+.payment-summary .FoodItemInfo {
+  margin: 0;
+  padding: 12px 0;
+  background: transparent;
+  border-bottom: 1px dashed var(--line);
+  border-radius: 0;
+  justify-content: flex-start;
+}
+
+.payment-summary .FoodItemInfo:last-child {
+  border-bottom: none;
+}
+
+.payment-summary .iteminfo p:first-child {
+  font-size: 15px;
+}
+
+.cardsection {
+  text-align: left;
+  width: 100%;
+  margin: 0 auto 20px;
+  padding: 18px 20px;
+  background: #fff;
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.cardsection:focus-within {
+  border-color: var(--fuchsia);
+  box-shadow: 0 0 0 3px rgba(230, 51, 123, 0.15);
+}
+
+.cardsection label {
+  display: block;
+  font-weight: 600;
+  color: var(--charcoal);
+  margin-bottom: 10px;
+}
+
+.secure-note {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: var(--charcoal);
+  opacity: 0.6;
+  text-align: center;
+  margin-top: 14px;
+}
+
+.btn-pay {
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 600;
+  font-size: 14px;
+  background: var(--teal);
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  height: 44px;
+  width: 100%;
+  margin-top: 4px;
+  transition: transform 0.08s ease, background 0.15s ease;
+}
+
+.btn-pay:hover {
+  background: #146A50;
+}
+
+.btn-pay:active {
+  background: #0F5A43;
+  transform: scale(0.98);
+}
+
+.btn-pay:disabled {
+  opacity: 0.5;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 640px) {
+  .header {
+    padding: 0 16px;
+  }
+
+  .foodapp_lite {
+    font-size: 20px;
+  }
+
+  .Category,
+  .fooditem {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .AddToCart,
+  .OrderNow {
+    padding: 20px;
+  }
+
+  .AddToCart .FoodItemInfo,
+  .OrderNow .FoodItemInfo {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .FoodItemInfo {
+    margin: 20px 16px;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .img {
+    width: 100%;
+    height: 240px;
+  }
+
+  .payment-page {
+    margin: 20px auto;
+  }
+}
+
+.qty-badge {
+  display: inline-block;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  background: var(--mango);
+  color: #fff;
+  padding: 2px 8px;
+  border-radius: 12px;
+  margin-right: 8px;
+}
+
+.payment-line {
+  font-size: 13px;
+  color: var(--charcoal);
+  display: flex;
+  align-items: center;
+  margin: 4px 0;
+}
+
+.payment-line-total {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.payment-grand-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--ink);
+  padding: 14px 0 4px;
+  margin-top: 8px;
+  border-top: 2px solid var(--ink);
 }

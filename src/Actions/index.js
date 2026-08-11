@@ -82,3 +82,8 @@ export const RemoveToOrderItem = (id) => {
         })
     }
 }
+
+export const SetFoodItems = (items) => ({
+  type: "SET_FOOD_ITEMS",
+  payload: items,
+});
